@@ -1,21 +1,30 @@
-from flask_sqlalchemy.model import s
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
+from datetime import datetime
 from app import db
+from . import login_manager
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 
 class Permission:
-    ACCESS = 1
-    ADD_USER = 2
+    USER = 1
+    ADMIN = 2
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True)
     email = db.Column(db.String(64), unique=True)
-    real_name = db.Column(db.String)
+    name = db.Column(db.String)
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
     status_id = db.Column(db.Integer)
     password_hash = db.Column(db.String(128))
+    register_date = db.Column(db.DateTime(), default=datetime.now)
+    confirmed = db.Column(db.Boolean, default=False)
 
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
@@ -36,6 +45,12 @@ class User(db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    def can(self, perm):
+        return self.role is not None and self.role.has_permission(perm)
+
+    def is_administrator(self):
+        return self.can(Permission.ADMIN)
+
 
 class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -51,7 +66,7 @@ class Role(db.Model):
             'Admin': [Permission.ACCESS, Permission.ADD_USER],
         }
         default_role = 'User'
-        for r in roles:
+        for r in roles.keys():
             role = Role.query.filter_by(name=r).first()
             if role is None:
                 role = Role(name=r)

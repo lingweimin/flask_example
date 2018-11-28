@@ -25,5 +25,5 @@ manager.add_command('shell', Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 
 if __name__ == '__main__':
-    Role.insert_roles()
+    # Role.insert_roles()
     manager.run()

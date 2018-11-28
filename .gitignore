@@ -4,6 +4,6 @@ requirements.txt
 
 env
 __pycache__
-
+migrations
 
 

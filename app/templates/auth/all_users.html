@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}flask_example - All Users{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>All Users</h1>
+</div>
+<div class="col-md-4">
+    {% for user in users %}
+    <div>{{ user.username }}</div>
+    {% endfor %}
+</div>
+{% endblock %}
