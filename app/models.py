@@ -1,5 +1,6 @@
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin
+from flask import url_for
+from flask_login import UserMixin, AnonymousUserMixin
 from datetime import datetime
 from app import db
 from . import login_manager
@@ -13,6 +14,17 @@ def load_user(user_id):
 class Permission:
     USER = 1
     ADMIN = 2
+
+
+class AnonymousUser(AnonymousUserMixin):
+    def can(self, permissions):
+        return False
+
+    def is_administrator(self):
+        return False
+
+
+login_manager.anonymous_user = AnonymousUser
 
 
 class User(db.Model, UserMixin):
@@ -50,6 +62,15 @@ class User(db.Model, UserMixin):
 
     def is_administrator(self):
         return self.can(Permission.ADMIN)
+
+    def to_json(self):
+        json_user = {
+            'url': url_for('api.get_user', id=self.id),
+            'username': self.username,
+            'name': self.name,
+            'register_date': self.register_date
+        }
+        return json_user
 
 
 class Role(db.Model):

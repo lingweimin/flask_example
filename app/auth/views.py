@@ -13,8 +13,11 @@ def login():
     if form.validate_on_submit():
         u = User.query.filter_by(email=form.email.data).first()
         if u is not None and u.verify_password(form.password.data):
-            login_user(u, form.remember_me.data)
-            return redirect(request.args.get('next') or url_for('main.index'))
+            if not u.confirmed:
+                flash('The account is waiting for confirmation.')
+            else:
+                login_user(u, form.remember_me.data)
+                return redirect(request.args.get('next') or url_for('main.index'))
         else:
             flash('Invalid email or password.')
     return render_template('auth/login.html', form=form)
@@ -34,9 +37,10 @@ def register():
     if form.validate_on_submit():
         u = User(username=form.username.data,
                  email=form.email.data,
-                 password=form.password.data)
+                 password=form.password.data,
+                 confirmed=False)
         db.session.add(u)
-        db.commit()
+        db.session.commit()
         flash('you can now login')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form)

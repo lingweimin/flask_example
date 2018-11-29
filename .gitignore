@@ -1,6 +1,5 @@
 *.sqlite
 *.pyc
-requirements.txt
 
 env
 __pycache__
