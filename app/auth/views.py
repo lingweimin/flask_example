@@ -1,6 +1,6 @@
 from flask import request, url_for, redirect, render_template, abort, flash
 from flask_login import login_user, login_required, logout_user, current_user
-from app.models import User, Role
+from ..models.auth import User, Role
 from app.decorators import permission_required, admin_required
 from app import db
 from . import auth

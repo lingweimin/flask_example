@@ -2,9 +2,9 @@ from flask import render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
 from . import main
 from .forms import EditProfileForm, EditProfileAdminForm
-from app import db
-from app.models import User, Role
-from app.decorators import admin_required
+from .. import db
+from ..models.auth import User, Role
+from ..decorators import admin_required
 
 
 @main.route('/')

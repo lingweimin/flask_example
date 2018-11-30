@@ -1,5 +1,5 @@
 import unittest
-from app.models import User, Role
+from ..app.models.auth import User, Role
 from app import create_app, db
 
 

@@ -2,8 +2,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask import url_for
 from flask_login import UserMixin, AnonymousUserMixin
 from datetime import datetime
-from app import db
-from . import login_manager
+from .. import login_manager, db
 
 
 @login_manager.user_loader
