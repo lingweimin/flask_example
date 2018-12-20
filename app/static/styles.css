@@ -1,0 +1,43 @@
+
+/* Quotes */
+.tags-box {
+    text-align: right;
+}
+.tags-box h2 {
+    margin-top: 0;
+}
+.tag-item {
+    display: block;
+    margin: 4px;
+}
+.quote {
+    border: 1px solid #333333;
+    border-radius: 5px;
+    box-shadow: 2px 2px 3px #333333;
+    margin-bottom: 30px;
+    padding: 10px;
+}
+.quote small.author {
+    color: #3677e8;
+    font-weight: bold;
+}
+.quote span.text {
+    display: block;
+    font-size: large;
+    font-style: italic;
+    margin-bottom: 5px;
+}
+.quote .tags {
+    margin-top: 10px;
+}
+
+.tag {
+    background-color: #7ca3e6;
+    border-radius: 5px;
+    color: white;
+    font-size: small;
+    padding: 2px 5px;
+}
+a.tag:hover {
+    text-decoration: none;
+}

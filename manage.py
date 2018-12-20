@@ -1,3 +1,4 @@
+from flask import g
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
 
